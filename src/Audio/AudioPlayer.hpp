@@ -17,12 +17,6 @@ class StreamedPlayer2D;
 class StreamedPlayer3D;
 class Sound;
 
-shared_ptr<StreamedPlayer2D> createMusicPlayer();
-shared_ptr<StreamedPlayer2D> getPlayer(u32);
-shared_ptr<StreamedPlayer3D> createAudioSource();
-shared_ptr<StreamedPlayer3D> getAudioSource(u32);
-
-
 enum class OnTrackFinish
 {
 	Repeat, Random, Next,

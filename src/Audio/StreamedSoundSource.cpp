@@ -1,3 +1,5 @@
+
+#define BOOST_CHRONO_HEADER_ONLY 1
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include "StreamedSoundSource.hpp"
 #include "AudioPlayerUtils.hpp"

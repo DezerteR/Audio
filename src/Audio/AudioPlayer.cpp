@@ -10,31 +10,6 @@
 namespace Audio
 {
 
-std::map<u32, shared_ptr<StreamedPlayer2D>> musicPlayers;
-std::map<u32, shared_ptr<StreamedPlayer3D>> audioSources;
-std::atomic<u32> resourceId;
-u32 nextId(){
-	return resourceId++;
-}
-
-shared_ptr<StreamedPlayer2D> createMusicPlayer(){
-	u32 id = nextId();
-	musicPlayers.emplace(id, make_shared<StreamedPlayer2D>(id));
-	return musicPlayers[id];
-}
-shared_ptr<StreamedPlayer2D> getPlayer(u32 id){
-	return musicPlayers[id];
-}
-shared_ptr<StreamedPlayer3D> createAudioSource(){
-	u32 id = nextId();
-	audioSources.emplace(id, make_shared<StreamedPlayer3D>(id));
-	return audioSources[id];
-}
-shared_ptr<StreamedPlayer3D> getAudioSource(u32 id){
-	return audioSources[id];
-}
-
-
 /// --------------------------- StreamedPlayer2D ---------------------------
 StreamedPlayer2D::StreamedPlayer2D(u32 id) : id(id), m_music(std::make_unique<Audio::StreamedSoundSource>()), m_status(Stopped){
 	auto seed = std::chrono::system_clock::now().time_since_epoch().count();

@@ -20,6 +20,33 @@
 
 #include "AudioPlayer.hpp"
 
+
+/// usage, to avoid global states and other shiy
+namespace Audio
+{
+	class StreamedPlayer2D;
+	class StreamedPlayer3D;
+	class SoundPlayer2D;
+	class SoundPlayer3D;
+}
+
+struct AudioContainer
+{
+	AudioContainer(Audio::StreamedPlayer2D &music,
+				   Audio::StreamedPlayer3D &ambient,
+				   Audio::SoundPlayer2D &gui,
+				   Audio::SoundPlayer3D &effects,
+				   Audio::SoundPlayer3D &vehicle)
+				   : music(music), ambient(ambient), gui(gui), effects(effects), vehicle(vehicle) {}
+	static Audio::StreamedPlayer2D &music;
+	static Audio::StreamedPlayer3D &ambient;
+	static Audio::SoundPlayer2D &gui;
+	static Audio::SoundPlayer3D &effects;
+	static Audio::SoundPlayer3D &vehicle;
+};
+
+
+
 void wait(double mces){
 	Timer<double, 1000, 1> timer;
 	while(mces > 0.0){
