@@ -2,9 +2,6 @@
 #include "Includes.hpp"
 #include "AudioPlayerUtils.hpp"
 
-/// TODO: remove from here
-#include "StreamedSoundSource.hpp"
-
 namespace Audio
 {
 
@@ -16,6 +13,7 @@ enum SourceType
 class StreamedPlayer2D;
 class StreamedPlayer3D;
 class Sound;
+class StreamedSoundSource;
 
 enum class OnTrackFinish
 {
@@ -28,7 +26,7 @@ enum class OnTrackFinish
 class StreamedPlayer2D
 {
 public:
-	StreamedPlayer2D(u32 id);
+	StreamedPlayer2D();
 	~StreamedPlayer2D();
 	void next(u32 incr = 0);
 	void play();
@@ -42,7 +40,6 @@ public:
 	StreamedPlayer2D& volume(float);
 	StreamedPlayer2D& pitch(float);
 
-	u32 id;
 	Status m_status { Stopped };
 	float m_volume;
 	float m_pitch;
@@ -53,7 +50,7 @@ protected:
 
 	std::vector<std::string> m_playlist;
 	u32 m_track;
-	std::unique_ptr<Audio::StreamedSoundSource> m_music;
+	std::shared_ptr<StreamedSoundSource> m_music;
 	std::default_random_engine RNG;
 };
 
@@ -64,7 +61,7 @@ protected:
 class StreamedPlayer3D : public StreamedPlayer2D
 {
 public:
-	StreamedPlayer3D(u32 id);
+	StreamedPlayer3D();
 	StreamedPlayer3D& volume(float);
 	StreamedPlayer3D& pitch(float);
 	StreamedPlayer3D& position(const glm::vec4&);
@@ -162,17 +159,17 @@ public:
 class Listener
 {
 public:
-	static void position(const glm::vec4&);
-	static void velocity(const glm::vec4&);
-	static void orientation(const glm::mat4&);
-	static void orientation(const glm::vec4&, const glm::vec4&);
-	static void up(const glm::vec4&);
-	static void at(const glm::vec4&);
-	static void volume(float);
+	void position(const glm::vec4&);
+	void velocity(const glm::vec4&);
+	void orientation(const glm::mat4&);
+	void orientation(const glm::vec4&, const glm::vec4&);
+	void up(const glm::vec4&);
+	void at(const glm::vec4&);
+	void volume(float);
 
-	static float m_volume;
-	static glm::vec4 m_at;
-	static glm::vec4 m_up;
+	float m_volume;
+	glm::vec4 m_at;
+	glm::vec4 m_up;
 };
 
 class ContextHandler

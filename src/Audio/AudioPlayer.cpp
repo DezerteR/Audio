@@ -11,7 +11,7 @@ namespace Audio
 {
 
 /// --------------------------- StreamedPlayer2D ---------------------------
-StreamedPlayer2D::StreamedPlayer2D(u32 id) : id(id), m_music(std::make_unique<Audio::StreamedSoundSource>()), m_status(Stopped){
+StreamedPlayer2D::StreamedPlayer2D(u32 id) : id(id), m_music(std::make_shared<Audio::StreamedSoundSource>()), m_status(Stopped){
 	auto seed = std::chrono::system_clock::now().time_since_epoch().count();
 	RNG.seed(seed);
 

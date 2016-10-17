@@ -2,7 +2,6 @@
 #include "Utils.hpp"
 #include "Timer.hpp"
 #include "Constants.hpp"
-#include "AudioPlayerUtils.hpp"
 
 #include <AL/al.h>
 #include <glm/gtc/matrix_transform.hpp>
@@ -18,33 +17,20 @@
 #include <glm/gtx/matrix_interpolation.hpp>
 #include <glm/gtx/optimum_pow.hpp>
 
-#include "AudioPlayer.hpp"
+#include "IAudio.hpp"
 
+ifdef USAGE
+.hpp:
+extern IAudio audio.
+.cpp:
+IAudio audio;
+main:
+audio.init();
 
-/// usage, to avoid global states and other shiy
-namespace Audio
-{
-	class StreamedPlayer2D;
-	class StreamedPlayer3D;
-	class SoundPlayer2D;
-	class SoundPlayer3D;
-}
+audio.volume(0.5);
+audio.ambient.volume(0.99)
 
-struct AudioContainer
-{
-	AudioContainer(Audio::StreamedPlayer2D &music,
-				   Audio::StreamedPlayer3D &ambient,
-				   Audio::SoundPlayer2D &gui,
-				   Audio::SoundPlayer3D &effects,
-				   Audio::SoundPlayer3D &vehicle)
-				   : music(music), ambient(ambient), gui(gui), effects(effects), vehicle(vehicle) {}
-	static Audio::StreamedPlayer2D &music;
-	static Audio::StreamedPlayer3D &ambient;
-	static Audio::SoundPlayer2D &gui;
-	static Audio::SoundPlayer3D &effects;
-	static Audio::SoundPlayer3D &vehicle;
-};
-
+endif
 
 
 void wait(double mces){
@@ -59,15 +45,13 @@ void wait(double mces){
 void test_1(){
 	Timer<double, 1000, 1> timer;
 
-	auto &&player = Audio::createMusicPlayer();
-	player->loadFromDirectory("../res/audio/music/");
-	player->play();
+	audio->music.play();
 
 	for(int i = 3; i>0; i--){
 		cerr<<i<<".."<<endl;
 		double timeLeft = 1000.0;
 
-		player->next();
+		audio->music.next();
 
 		while(timeLeft > 0.0){
 			timeLeft -= timer();
@@ -177,12 +161,8 @@ void test_5(){
 }
 
 int main(){
-	// ContextHandler audioContext;
-	// SoundPlayer3D::loadFromDirectory("../res/audio/effects/");
-	Audio::Listener::position({0,0,0,0});
-	Audio::Listener::velocity({0,0,0,0});
-	Audio::Listener::orientation({1,0,0,0}, {0,0,1,0});
-	Audio::Listener::volume(0.8f);
+	audio = make_unique<IAudio>();
+	audio->init();
 
 	test_1();
 	// test_2();
