@@ -11,7 +11,7 @@ namespace Audio
 {
 
 /// --------------------------- StreamedPlayer2D ---------------------------
-StreamedPlayer2D::StreamedPlayer2D(u32 id) : id(id), m_music(std::make_shared<Audio::StreamedSoundSource>()), m_status(Stopped){
+StreamedPlayer2D::StreamedPlayer2D(): m_music(std::make_shared<Audio::StreamedSoundSource>()), m_status(Stopped){
 	auto seed = std::chrono::system_clock::now().time_since_epoch().count();
 	RNG.seed(seed);
 
@@ -90,7 +90,7 @@ StreamedPlayer2D& StreamedPlayer2D::pitch(float p){
 
 
 /// --------------------------- StreamedPlayer3D ---------------------------
-StreamedPlayer3D::StreamedPlayer3D(u32 id) : StreamedPlayer2D(id){
+StreamedPlayer3D::StreamedPlayer3D(){
 	auto seed = std::chrono::system_clock::now().time_since_epoch().count();
 	RNG.seed(seed);
 	m_music->m_forceMono = true;
@@ -356,10 +356,6 @@ void Listener::volume(float v){
 	alListenerf(AL_GAIN, v);
 	m_volume = v;
 }
-
-float Listener::m_volume(1);
-glm::vec4 Listener::m_at(1,0,0,0);
-glm::vec4 Listener::m_up(0,0,1,0);
 
 ContextHandler::ContextHandler(){
 	Audio::AudioUtils::init();

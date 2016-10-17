@@ -5,13 +5,14 @@ void IAudio::init(){
 	listener.position({0,0,0,0});
 	listener.velocity({0,0,0,0});
 	listener.orientation({1,0,0,0}, {0,0,1,0});
-	listener.volume(1;
+	listener.volume(100);
 
+	// music.loadFromDirectory("../res/audio/effects/");
 	music.loadFromDirectory("../res/audio/music/");
-	ambient.loadFromDirectory("../res/audio/ambient/");
-	gui.loadFromDirectory("../res/audio/gui/");
+	// ambient.loadFromDirectory("../res/audio/ambient/");
+	// gui.loadFromDirectory("../res/audio/gui/");
 	effects.loadFromDirectory("../res/audio/effects/");
-	vehicle.loadFromDirectory("../res/audio/vehicle/");
+	// vehicle.loadFromDirectory("../res/audio/vehicle/");
 }
 
 unique_ptr<IAudio> audio;

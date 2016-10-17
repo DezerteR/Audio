@@ -19,19 +19,6 @@
 
 #include "IAudio.hpp"
 
-ifdef USAGE
-.hpp:
-extern IAudio audio.
-.cpp:
-IAudio audio;
-main:
-audio.init();
-
-audio.volume(0.5);
-audio.ambient.volume(0.99)
-
-endif
-
 
 void wait(double mces){
 	Timer<double, 1000, 1> timer;
@@ -44,8 +31,9 @@ void wait(double mces){
 /// music player
 void test_1(){
 	Timer<double, 1000, 1> timer;
-
+	cerr << "A";
 	audio->music.play();
+	cerr << "B";
 
 	for(int i = 3; i>0; i--){
 		cerr<<i<<".."<<endl;
@@ -78,10 +66,6 @@ void test_2(){
 
 /// 3D effects
 void test_3(){
-	Audio::Listener::position({0,0,0,0});
-	Audio::Listener::velocity({0,0,0,0});
-	Audio::Listener::orientation({1,0,0,0}, {0,0,1,0});
-
 	auto seed = std::chrono::system_clock::now().time_since_epoch().count();
 	std::default_random_engine RNG(seed);
 	std::uniform_real_distribution <float> dis(-10, 10);
@@ -162,7 +146,9 @@ void test_5(){
 
 int main(){
 	audio = make_unique<IAudio>();
+	cerr << "0";
 	audio->init();
+	cerr << "1";
 
 	test_1();
 	// test_2();

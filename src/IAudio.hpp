@@ -2,6 +2,7 @@
 
 #include "AudioPlayerUtils.hpp"
 #include "AudioPlayer.hpp"
+#include <boost/core/noncopyable.hpp>
 
 class IAudio : private boost::noncopyable
 {
