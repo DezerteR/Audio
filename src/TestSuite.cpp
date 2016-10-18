@@ -28,15 +28,11 @@ void wait(double mces){
 	// cerr<<"."<<endl;
 }
 
-/// music player
-void test_1(){
+void testStreamingMusic(){
 	Timer<double, 1000, 1> timer;
-	cerr << "A";
 	audio->music.play();
-	cerr << "B";
 
 	for(int i = 3; i>0; i--){
-		cerr<<i<<".."<<endl;
 		double timeLeft = 1000.0;
 
 		audio->music.next();
@@ -49,13 +45,13 @@ void test_1(){
 }
 
 /// sound player
-void test_2(){
+void testPlayingShortSounds(){
 	Timer<double, 1000, 1> timer;
 
 	for(int i = 20; i>0; i--){
 		cerr<<i<<".."<<endl;
 		double timeLeft = 100.0;
-		// SoundPlayer3D::get(i).play();
+		audio->effects.get(i).play();
 
 		while(timeLeft > 0.0){
 			timeLeft -= timer();
@@ -65,19 +61,19 @@ void test_2(){
 }
 
 /// 3D effects
-void test_3(){
+void testPlayingShortSoundsInSpace(){
 	auto seed = std::chrono::system_clock::now().time_since_epoch().count();
 	std::default_random_engine RNG(seed);
-	std::uniform_real_distribution <float> dis(-10, 10);
+	std::uniform_real_distribution <float> dis(-15, 15);
 	std::uniform_real_distribution <double> dt(150, 300);
 	std::uniform_int_distribution <u32> tr(0, 15);
 
 	for(u32 i = 0; i < 50; i++){
-		// SoundPlayer3D::get(tr(RNG))
-		// 	.position(glm::vec4(dis(RNG), dis(RNG), 0, 1))
-		// 	.attenuation(0.1)
-		// 	// .pitch(2)
-		// 	.play();
+		audio->effects.get(tr(RNG))
+			.position(glm::vec4(dis(RNG), dis(RNG), 0, 1))
+			.attenuation(0.51)
+			.pitch(2)
+			.play();
 		wait(dt(RNG));
 	}
 
@@ -146,13 +142,11 @@ void test_5(){
 
 int main(){
 	audio = make_unique<IAudio>();
-	cerr << "0";
 	audio->init();
-	cerr << "1";
 
-	test_1();
-	// test_2();
-	// test_3();
+	// testStreamingMusic();
+	// testPlayingShortSounds();
+	testPlayingShortSoundsInSpace();
 	// test_4();
 	// test_5();
 

@@ -79,7 +79,6 @@ public:
 	SoundSource() : m_source(0), m_lifetime(0){}
 	SoundSource(u32 id) : m_source(id){}
 	void play();
-	static void update(i32);
 
 	/// setters
 	/// volume is in [0,1]
@@ -138,17 +137,23 @@ public:
 class SoundPlayer2D
 {
 public:
-	static void loadFromDirectory(const std::string&);
-	static SoundSource& get(u32);
-	static SoundSource& get(const std::string&);
+	void loadFromDirectory(const std::string&);
+	SoundSource& get(u32);
+	SoundSource& get(const std::string&);
+	void update(i32);
+private:
+	std::vector<SoundSource> soundSources;
 };
 
 class SoundPlayer3D
 {
 public:
-	static void loadFromDirectory(const std::string&);
-	static SoundSource& get(u32);
-	static SoundSource& get(const std::string&);
+	void loadFromDirectory(const std::string&);
+	SoundSource& get(u32);
+	SoundSource& get(const std::string&);
+	void update(i32);
+private:
+	std::vector<SoundSource> soundSources;
 };
 
 /**

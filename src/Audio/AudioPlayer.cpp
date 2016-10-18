@@ -14,7 +14,7 @@ namespace Audio
 StreamedPlayer2D::StreamedPlayer2D(): m_music(std::make_shared<Audio::StreamedSoundSource>()), m_status(Stopped){
 	auto seed = std::chrono::system_clock::now().time_since_epoch().count();
 	RNG.seed(seed);
-
+	stop();
 	m_music->m_onTrackEndCallback = [this]{
 		this->next();
 	};
@@ -74,7 +74,7 @@ void StreamedPlayer2D::loadFromDirectory(const std::string &directory){
 	for(auto &it : files){
 		m_playlist.push_back(it.localFilePath);
 	}
-	open(0);
+	open(m_current);
 }
 
 StreamedPlayer2D& StreamedPlayer2D::volume(float v){
@@ -128,7 +128,6 @@ StreamedPlayer3D& StreamedPlayer3D::attenuation(float a){
 
 
 /// --------------------------- SoundSource ---------------------------
-std::vector<SoundSource> g_soundSources;
 
 SoundSource& SoundSource::volume(float v){
 	alSourcef(m_source, AL_GAIN, v);
@@ -191,18 +190,6 @@ Status SoundSource::status() const {
 }
 void SoundSource::play(){
 	alSourcePlay(m_source);
-}
-void SoundSource::update(i32 dt){
-	for(auto it = g_soundSources.begin(); it != g_soundSources.end(); it++){
-		if(it->m_lifetime){
-			if((it->m_lifetime -= dt) <= 0){
-				it->loop(false);
-			}
-		}
-		if(it->status() == Stopped){
-			it = g_soundSources.erase(it);
-		}
-	}
 }
 
 glm::vec4 SoundSource::getPosition() const {
@@ -285,16 +272,26 @@ SoundSource& SoundPlayer2D::get(u32 id){
 	u32 source;
 	alGenSources(1, &source);
 	alSourcei(source, AL_BUFFER, buffer.m_buffer);
-	g_soundSources.emplace_back(source);
-	return g_soundSources.back();
+	soundSources.emplace_back(source);
+	return soundSources.back();
 }
 // SoundSource& SoundPlayer2D::get(const std::string&){
 	// auto &buffer = g_stereoSoundBuffers[id];
 	// alGenSources(1, &m_source);
 	// alSourcei(m_source, AL_BUFFER, buffer.m_buffer);
-	// g_soundSources.push_back(m_source);
+	// soundSources.push_back(m_source);
 	// return source;
 // }
+void SoundPlayer2D::update(i32 dt){
+	std::remove_if(soundSources.begin(), soundSources.end(), [dt](SoundSource &source){
+		if(source.m_lifetime){
+			if((source.m_lifetime -= dt) <= 0){
+				source.loop(false);
+			}
+		}
+		return source.status() == Stopped;
+	});
+}
 
 /// --------------------------- SoundPlayer3D ---------------------------
 std::vector<Audio::SoundBuffer> g_monoSoundBuffers;
@@ -313,18 +310,27 @@ SoundSource& SoundPlayer3D::get(u32 id){
 	u32 source;
 	alGenSources(1, &source);
 	alSourcei(source, AL_BUFFER, buffer.m_buffer);
-	g_soundSources.emplace_back(source);
-	return g_soundSources.back();
+	soundSources.emplace_back(source);
+	return soundSources.back();
 }
 // SoundSource& SoundPlayer3D::get(const std::string&){
 	// auto &buffer = g_monoSoundBuffers[id];
 	// u32 source = 0;
 	// alGenSources(1, &source);
 	// alSourcei(m_source, AL_BUFFER, buffer.m_buffer);
-	// g_soundSources.emplace_back(source);
+	// soundSources.emplace_back(source);
 // 	return source;
 // }
-
+void SoundPlayer3D::update(i32 dt){
+	std::remove_if(soundSources.begin(), soundSources.end(), [dt](SoundSource &source){
+		if(source.m_lifetime){
+			if((source.m_lifetime -= dt) <= 0){
+				source.loop(false);
+			}
+		}
+		return source.status() == Stopped;
+	});
+}
 
 /// --------------------------- Listener ---------------------------
 void Listener::position(const glm::vec4 &p){
@@ -359,9 +365,11 @@ void Listener::volume(float v){
 
 ContextHandler::ContextHandler(){
 	Audio::AudioUtils::init();
+	std::cout<<"Audio context initialized"<<std::endl;
 }
 ContextHandler::~ContextHandler(){
 	Audio::AudioUtils::clear();
+	std::cout<<"Audio context deleted"<<std::endl;
 }
 
 }
