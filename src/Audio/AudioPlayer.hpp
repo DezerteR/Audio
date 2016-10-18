@@ -1,10 +1,18 @@
 #pragma once
-#include "Includes.hpp"
 #include "AudioPlayerUtils.hpp"
+
+#define GLM_FORCE_SWIZZLE
+#define GLM_FORCE_RADIANS
+#include <vector>
+#include <glm/glm.hpp>
+
+typedef int32_t i32;
+using std::shared_ptr;
+using std::make_shared;
 
 namespace Audio
 {
-
+class SoundBuffer;
 enum SourceType
 {
 	Source2D, Source3D
@@ -143,6 +151,7 @@ public:
 	void update(i32);
 private:
 	std::vector<SoundSource> soundSources;
+	std::vector<shared_ptr<SoundBuffer>> stereoSoundBuffers;
 };
 
 class SoundPlayer3D
@@ -154,6 +163,7 @@ public:
 	void update(i32);
 private:
 	std::vector<SoundSource> soundSources;
+	std::vector<shared_ptr<SoundBuffer>> monoSoundBuffers;
 };
 
 /**

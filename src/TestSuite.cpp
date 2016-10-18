@@ -1,3 +1,4 @@
+#include "IAudio.hpp"
 #include "Includes.hpp"
 #include "Utils.hpp"
 #include "Timer.hpp"
@@ -17,7 +18,6 @@
 #include <glm/gtx/matrix_interpolation.hpp>
 #include <glm/gtx/optimum_pow.hpp>
 
-#include "IAudio.hpp"
 
 
 void wait(double mces){
@@ -56,7 +56,7 @@ void testPlayingShortSounds(){
 		while(timeLeft > 0.0){
 			timeLeft -= timer();
 		}
-		// SoundSource::update(100);
+		audio->update(100);
 	}
 }
 
@@ -79,7 +79,7 @@ void testPlayingShortSoundsInSpace(){
 
 	wait(1800);
 
-	// SoundSource::update(100);
+	audio->update(100);
 }
 
 /// looped source

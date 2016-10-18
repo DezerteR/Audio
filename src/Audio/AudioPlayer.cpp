@@ -257,18 +257,17 @@ bool SoundSource::isRelativeToListener() const {
 
 
 /// --------------------------- SoundPlayer2D ---------------------------
-std::vector<Audio::SoundBuffer> g_stereoSoundBuffers;
+
 
 void SoundPlayer2D::loadFromDirectory(const std::string &directory){
 	auto &&files = getFiles(directory, "*.ogg");
 	for(auto &it : files){
-		Audio::SoundBuffer buffer;
-		buffer.loadFromFile(it.localFilePath);
-		g_stereoSoundBuffers.push_back(buffer);
+		stereoSoundBuffers.emplace_back(make_shared<SoundBuffer>());
+		stereoSoundBuffers.back()->loadFromFile(it.localFilePath);
 	}
 }
 SoundSource& SoundPlayer2D::get(u32 id){
-	auto &buffer = g_stereoSoundBuffers[id];
+	auto &buffer = *stereoSoundBuffers[id];
 	u32 source;
 	alGenSources(1, &source);
 	alSourcei(source, AL_BUFFER, buffer.m_buffer);
@@ -276,7 +275,7 @@ SoundSource& SoundPlayer2D::get(u32 id){
 	return soundSources.back();
 }
 // SoundSource& SoundPlayer2D::get(const std::string&){
-	// auto &buffer = g_stereoSoundBuffers[id];
+	// auto &buffer = stereoSoundBuffers[id];
 	// alGenSources(1, &m_source);
 	// alSourcei(m_source, AL_BUFFER, buffer.m_buffer);
 	// soundSources.push_back(m_source);
@@ -294,19 +293,18 @@ void SoundPlayer2D::update(i32 dt){
 }
 
 /// --------------------------- SoundPlayer3D ---------------------------
-std::vector<Audio::SoundBuffer> g_monoSoundBuffers;
+
 
 void SoundPlayer3D::loadFromDirectory(const std::string &directory){
 	auto &&files = getFiles(directory, "*.ogg");
 	for(auto &it : files){
-		Audio::SoundBuffer buffer;
-		buffer.m_forceMono = true;
-		buffer.loadFromFile(it.localFilePath);
-		g_monoSoundBuffers.push_back(buffer);
+		monoSoundBuffers.emplace_back(make_shared<SoundBuffer>());
+		monoSoundBuffers.back()->m_forceMono = true;
+		monoSoundBuffers.back()->loadFromFile(it.localFilePath);
 	}
 }
 SoundSource& SoundPlayer3D::get(u32 id){
-	auto &buffer = g_monoSoundBuffers[id];
+	auto &buffer = *monoSoundBuffers[id];
 	u32 source;
 	alGenSources(1, &source);
 	alSourcei(source, AL_BUFFER, buffer.m_buffer);
@@ -314,7 +312,7 @@ SoundSource& SoundPlayer3D::get(u32 id){
 	return soundSources.back();
 }
 // SoundSource& SoundPlayer3D::get(const std::string&){
-	// auto &buffer = g_monoSoundBuffers[id];
+	// auto &buffer = monoSoundBuffers[id];
 	// u32 source = 0;
 	// alGenSources(1, &source);
 	// alSourcei(m_source, AL_BUFFER, buffer.m_buffer);

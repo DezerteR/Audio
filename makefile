@@ -1,15 +1,13 @@
 DIRECTORIES = $(addprefix -I./,$(shell ls -d ./src/*/))
 TARGET_NAME = Audio
+LIB_NAME = libPMK-audio
 
 CXX_FLAGS = -isystem C:\MinGW\include -std=c++1y -O2 -msse2 -mfpmath=sse -g -pipe -I. -I./src $(DIRECTORIES) -DBT_USE_DOUBLE_PRECISION=ON -DUSE_BULLET
-# CXX_FLAGS = -isystem C:\MinGW\include -std=c++1y -O3 -msse2 -mfpmath=sse  -pipe -I. -I./src $(DIRECTORIES) -DBT_USE_DOUBLE_PRECISION=ON -DUSE_BULLET
-# https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
-ADDITIONAL_FLAGS = \
--Werror=return-type
-# -Wunused-function \
-# -Wswitch-enum \
+ADDITIONAL_FLAGS = -Werror=return-type
 
 CXX = C:\MinGw\bin\g++.exe
+INCLUDE_PATH = C:/MinGw/include/Audio
+LIB_PATH = C:/MinGw/lib
 FFMPEG = C:\ffmpeg\bin\ffmpeg.exe
 SRC = ./src
 BIN = ./bin
@@ -34,6 +32,11 @@ $(OBJ_DIR)/%.o : %.cpp
 	@mkdir -p $(@D)
 	@$(CXX) $(CXX_FLAGS) $(ADDITIONAL_FLAGS) -MMD -c $< -o $@
 
+
+$(BIN)/$(LIB_NAME).a: $(OBJS)
+	@echo "Library: $(LIB_NAME) "
+	ar rcsv $@ $^
+
 clean:
 	rm -rf $(OBJ_DIR)/*.o $(OBJ_DIR)/*.d
 	rm $(BIN)/$(TARGET_NAME).exe
@@ -43,5 +46,12 @@ run: $(BIN)/$(TARGET_NAME)
 
 debug: $(BIN)/$(TARGET_NAME)
 	(cd $(BIN) && gdb $(TARGET_NAME).exe)
+
+install: $(BIN)/$(LIB_NAME).a
+	@echo "installing"
+	cp $(BIN)/$(LIB_NAME).a $(LIB_PATH)
+	cp ./src/Audio/AudioPlayer.hpp $(INCLUDE_PATH)
+	cp ./src/Audio/AudioPlayerUtils.hpp $(INCLUDE_PATH)
+
 
 .PHONY: clean

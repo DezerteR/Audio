@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdlib>
+#include <atomic>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/thread.hpp>
 #include "Includes.hpp"
