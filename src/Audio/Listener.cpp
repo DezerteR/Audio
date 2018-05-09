@@ -1,6 +1,5 @@
 #include <AL/al.h>
 #include "Utils.hpp"
-#include "AudioPlayer.hpp"
 #include "SoundStream.hpp"
 #include "SoundBuffer.hpp"
 #include "AudioPlayerUtils.hpp"

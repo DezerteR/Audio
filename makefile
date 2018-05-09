@@ -1,8 +1,9 @@
 DIRECTORIES = $(addprefix -I./,$(shell ls -d ./src/*/))
+DIRECTORIES_2 = $(addprefix -I./,$(shell ls -d ./src/*/*/))
 TARGET_NAME = Audio
 LIB_NAME = libPMK-audio
 
-CXX_FLAGS = -isystem C:\MinGW\include -std=c++1y -O2 -msse2 -mfpmath=sse -g -pipe -I. -I./src $(DIRECTORIES)
+CXX_FLAGS = -isystem C:\MinGW\include -std=c++1y -O2 -msse2 -mfpmath=sse -g -pipe -I. -I./src $(DIRECTORIES) $(DIRECTORIES_2)
 ADDITIONAL_FLAGS = -Werror=return-type
 
 CXX = C:\MinGw\bin\g++.exe
@@ -15,7 +16,7 @@ OBJ_DIR = ./obj
 
 LIBS = -lboost_system -lboost_filesystem -lboost_thread -lboost_date_time -lOpenAL32 -lvorbisfile  -lvorbis -logg -lvorbisenc -lFLAC
 
-TARGETS = $(wildcard src/*.cpp) $(wildcard src/*/*.cpp)
+TARGETS = $(wildcard src/*.cpp) $(wildcard src/*/*.cpp) $(wildcard src/*/*/*.cpp)
 
 OBJS = $(TARGETS:%.cpp=$(OBJ_DIR)/%.o)
 

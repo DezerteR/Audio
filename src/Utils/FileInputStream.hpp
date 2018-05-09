@@ -1,6 +1,6 @@
 #pragma once
 
-#include "System/InputStream.hpp"
+#include "InputStream.hpp"
 #include <cstdio>
 #include <string>
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "System/Time.hpp"
+#include "Time.hpp"
 
 namespace Audio
 {
@@ -16,4 +16,3 @@ private:
 };
 
 }
-

@@ -1,4 +1,3 @@
-#include "IAudio.hpp"
 #include "Audio.hpp"
 #include "Includes.hpp"
 #include "Utils.hpp"
@@ -180,7 +179,6 @@ void textMusicPlaying(Library& lib){
 
 
 int main(){
-    IAudio audio;
     Audio::Device device;
     device.init();
 
