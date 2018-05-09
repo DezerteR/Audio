@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <functional>
+#include "glm/glm.hpp"
 
 namespace Audio
 {
@@ -14,6 +15,9 @@ private:
 public:
     SoundStream();
     ~SoundStream();
+    SoundStream& play();
+    SoundStream& pause();
+    SoundStream& stop();
     SoundStream& volume(float);
     SoundStream& pitch(float);
     SoundStream& position(const glm::vec4&);
@@ -24,6 +28,7 @@ public:
     SoundStream& relativeToListener(bool r = true);
     SoundStream& loop(bool l = true);
     SoundStream& onStreamFinish(std::function<void(void)>&&);
+    int miliseconds();
 
     bool openFromFile(const std::string& filename);
     bool openFromMemory(const void* data, std::size_t sizeInBytes);

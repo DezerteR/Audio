@@ -6,36 +6,6 @@ namespace Audio
 namespace AudioUtils
 {
 
-ALCdevice*  audioDevice  = nullptr;
-ALCcontext* audioContext = nullptr;
-
-bool init(){
-	audioDevice = alcOpenDevice(nullptr);
-
-	if(!audioDevice){
-		cerr << "Failed to open the audio device" << std::endl;
-		return false;
-	}
-	audioContext = alcCreateContext(audioDevice, nullptr);
-
-	if(!audioContext){
-		cerr << "Failed to create the audio context" << std::endl;
-		return false;
-	}
-	alcMakeContextCurrent(audioContext);
-	cout << "audio device created\n";
-	return true;
-}
-
-void clear(){
-	alcMakeContextCurrent(nullptr);
-	if(audioContext)
-		alcDestroyContext(audioContext);
-
-	if(audioDevice)
-		alcCloseDevice(audioDevice);
-}
-
 u32 calcFormatFromChannelCount(u32 channelCount){
 	u32 format = 0;
 	switch (channelCount){

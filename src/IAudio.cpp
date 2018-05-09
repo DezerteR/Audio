@@ -3,7 +3,6 @@
 #include "AudioPlayerUtils.hpp"
 
 void IAudio::init(){
-	Audio::AudioUtils::init();
 	// music.loadFromDirectory("../res/audio/effects/");
 	// music.loadFromDirectory("../res/audio/music/");
 	// ambient.loadFromDirectory("../res/audio/ambient/");

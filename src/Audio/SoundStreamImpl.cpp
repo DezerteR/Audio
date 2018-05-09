@@ -1,4 +1,3 @@
-
 #define BOOST_CHRONO_HEADER_ONLY 1
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include "SoundStreamImpl.hpp"
@@ -46,7 +45,7 @@ bool SoundStreamImpl::openFromFile(const std::string& filename){
     // m_file.m_forceMono = m_forceMono;
 
     if(!m_file.openFromFile(filename)){
-        cerr<<"can't open the file: "<<filename<<endl;
+        std::cerr <<"can't open the file: "<<filename<<endl;
         return false;
     }
 
@@ -123,14 +122,14 @@ void SoundStreamImpl::initialize(u32 channelCount, u32 sampleRate){
     if(m_format == 0){
         m_channelCount = 0;
         m_sampleRate   = 0;
-        cerr<< "Unsupported number of channels (" << m_channelCount << ")" << std::endl;
+        std::cerr<< "Unsupported number of channels (" << m_channelCount << ")" << std::endl;
     }
 }
 
 void SoundStreamImpl::play(){
     // Check if the sound parameters have been set
     if(m_format == 0){
-        cerr<< "Failed to play audio stream: sound parameters have not been initialized (call initialize() first)" << std::endl;
+        std::cerr << "Failed to play audio stream: sound parameters have not been initialized (call initialize() first)" << std::endl;
         return;
     }
 

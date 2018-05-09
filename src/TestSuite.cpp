@@ -146,11 +146,11 @@ void test_5(){
 struct Library
 {
     Audio::ShortSoundLibrary clips;
+    Audio::StreamedSoundLibrary music;
     Audio::Listener listener;
-    // StreamedSoundLibrary music;
 };
 
-void textClipPlaying(Library& lib){
+void testClipPlaying(Library& lib){
     {
         auto s = lib.clips.spawn("update")
                 .position(glm::vec4(1, 0, 0, 1))
@@ -173,20 +173,28 @@ void textClipPlaying(Library& lib){
         wait(s.miliseconds());
     }
 }
+void textMusicPlaying(Library& lib){
+    lib.music.play();
+    wait(25000);
+}
 
 
 int main(){
     IAudio audio;
-    audio.init();
+    Audio::Device device;
+    device.init();
 
     Library lib;
     lib.listener.position({0,0,0,0});
     lib.listener.velocity({0,0,0,0});
     lib.listener.orientation({1,0,0,0}, {0,0,1,0});
     lib.listener.volume(1);
+    lib.clips.mono(true);
     lib.clips.loadDirectory("../res/clips/");
+    lib.music.loadDirectory("../res/music/");
 
-    textClipPlaying(lib);
+    testClipPlaying(lib);
+    textMusicPlaying(lib);
 
     // testStreamingMusic();
     // testPlayingShortSounds();

@@ -14,7 +14,7 @@ public:
 	// Audio::SoundPlayer2D gui;
 	// Audio::SoundPlayer3D effects;
 	// Audio::SoundPlayer3D vehicle;
-	Audio::Listener listener;
+	// Audio::Listener listener;
 
 	void init();
 	void update(i32 dt);

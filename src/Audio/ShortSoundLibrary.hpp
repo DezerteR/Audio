@@ -13,7 +13,9 @@ class ShortSoundLibrary
 private:
     std::vector<SoundSource> m_activeSurces;
     std::map<std::string, std::shared_ptr<SoundBuffer>> m_loadedClips;
-
+    std::vector<std::shared_ptr<SoundBuffer>> m_loadedClipsLinear;
+    bool m_forceMono {false};
+    float m_volume {1.f};
 public:
     ShortSoundLibrary();
     ~ShortSoundLibrary();
@@ -21,5 +23,6 @@ public:
     SoundSource& spawn(const std::string&);
     void update(int microseconds);
     void defaultVolume(float);
+    void mono(bool m = true);
 };
 }

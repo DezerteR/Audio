@@ -7,6 +7,20 @@ namespace Audio
 SoundStream::SoundStream() : m_impl(std::make_unique<SoundStreamImpl>()){}
 SoundStream::~SoundStream() = default;
 
+
+SoundStream& SoundStream::play(){
+    m_impl->play();
+    return *this;
+}
+SoundStream& SoundStream::pause(){
+    m_impl->pause();
+    return *this;
+}
+SoundStream& SoundStream::stop(){
+    m_impl->stop();
+    return *this;
+}
+
 SoundStream& SoundStream::volume(float v){
 	alSourcef(m_impl->m_source, AL_GAIN, v);
 	return *this;
@@ -55,5 +69,9 @@ bool SoundStream::openFromFile(const std::string& filename){
 
 bool SoundStream::openFromMemory(const void* data, std::size_t sizeInBytes){
     return m_impl->openFromMemory(data, sizeInBytes);
+}
+
+int SoundStream::miliseconds(){
+    return m_impl->getPlayingOffset().asMilliseconds();
 }
 }

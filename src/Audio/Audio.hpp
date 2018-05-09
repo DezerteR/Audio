@@ -2,12 +2,12 @@
 #include "StreamedSoundLibrary.hpp"
 #include "ShortSoundLibrary.hpp"
 #include "Listener.hpp"
+#include "Device.hpp"
 
 
 namespace Audio
 {
 
-// Device createDevice(); // holder of audio context, created at beginning of main, released with application
 
 
 };
