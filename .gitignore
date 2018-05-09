@@ -2,6 +2,7 @@
 Thumbs.db
 ehthumbs.db
 .atom-build.json
+.vscode
 
 # Folder config file
 Desktop.ini
@@ -73,13 +74,23 @@ Network Trash Folder
 Temporary Items
 .apdisk
 *.pyc
+bin/script_a1.pyc
+PlayerSettings.yml
 res/
-libs/
-*.yml
+userData/
+screenshots/
+src/InputHandler
+res/models/Garage_2.yml
+src/Utils/Camera_old.cpp
+src/Utils/Camera_old.h
+src/Utils/Camera_old.h.old
+html/
+doc/
 *.bat
 *.diff
 GPATH
 GTAGS
 GRTAGS
 logs.md
-WindowConfig.yml
+doc/html/classarmory_1_1_weapon.html
+bin/libPMK-audio.a

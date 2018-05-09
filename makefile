@@ -2,7 +2,7 @@ DIRECTORIES = $(addprefix -I./,$(shell ls -d ./src/*/))
 TARGET_NAME = Audio
 LIB_NAME = libPMK-audio
 
-CXX_FLAGS = -isystem C:\MinGW\include -std=c++1y -O2 -msse2 -mfpmath=sse -g -pipe -I. -I./src $(DIRECTORIES) -DBT_USE_DOUBLE_PRECISION=ON -DUSE_BULLET
+CXX_FLAGS = -isystem C:\MinGW\include -std=c++1y -O2 -msse2 -mfpmath=sse -g -pipe -I. -I./src $(DIRECTORIES)
 ADDITIONAL_FLAGS = -Werror=return-type
 
 CXX = C:\MinGw\bin\g++.exe
@@ -38,14 +38,14 @@ $(BIN)/$(LIB_NAME).a: $(OBJS)
 	ar rcsv $@ $^
 
 clean:
-	rm -rf $(OBJ_DIR)/*.o $(OBJ_DIR)/*.d
+	rm -rf $(OBJ_DIR)
 	rm $(BIN)/$(TARGET_NAME).exe
 
 run: $(BIN)/$(TARGET_NAME)
 	(cd $(BIN) && ./$(TARGET_NAME).exe)
 
 debug: $(BIN)/$(TARGET_NAME)
-	(cd $(BIN) && gdb $(TARGET_NAME).exe)
+	(cd $(BIN) && gdb $(TARGET_NAME).exe -ex=run)
 
 install: $(BIN)/$(LIB_NAME).a
 	@echo "installing"

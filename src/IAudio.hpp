@@ -7,17 +7,15 @@
 class IAudio : private boost::noncopyable
 {
 private:
-	Audio::ContextHandler audioContext;
+	// Audio::ContextHandler audioContext;
 public:
-	Audio::StreamedPlayer2D music;
-	Audio::StreamedPlayer3D ambient;
-	Audio::SoundPlayer2D gui;
-	Audio::SoundPlayer3D effects;
-	Audio::SoundPlayer3D vehicle;
+	// Audio::StreamedPlayer2D music;
+	// Audio::StreamedPlayer3D ambient;
+	// Audio::SoundPlayer2D gui;
+	// Audio::SoundPlayer3D effects;
+	// Audio::SoundPlayer3D vehicle;
 	Audio::Listener listener;
 
 	void init();
 	void update(i32 dt);
 };
-
-extern unique_ptr<IAudio> audio;

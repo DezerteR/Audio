@@ -62,7 +62,7 @@ bool SoundBuffer::loadFromSamples(const i16* samples, u64 sampleCount, u32 chann
 	}
 	else {
 		// Error...
-		cerr << "Failed to load sound buffer from samples ("
+		std::cerr << "Failed to load sound buffer from samples ("
 			  << "array: "	  << samples	  << ", "
 			  << "count: "	  << sampleCount  << ", "
 			  << "channels: "   << channelCount << ", "
@@ -99,7 +99,7 @@ Time SoundBuffer::getDuration() const {
 	return m_duration;
 }
 
-SoundBuffer& SoundBuffer::operator =(const SoundBuffer& right){
+SoundBuffer& SoundBuffer::operator = (const SoundBuffer& right){
 	SoundBuffer temp(right);
 
 	std::swap(m_samples,  temp.m_samples);
